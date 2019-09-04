@@ -1,17 +1,22 @@
 import React from 'react';
-import FirebaseContext from '../contexts/FirebaseContext';
+import withAuthorization from '../utilities/withAuthorization';
+import AuthUserContext from '../contexts/AuthUserContext';
 import PasswordChangeForm from '../components/PasswordChangeForm';
 
 const Account = () => {
   return (
-    <div>
-      <h1>Account</h1>
-      <div>Update your password</div>
-      <FirebaseContext.Consumer>
-        {firebase => <PasswordChangeForm firebase={firebase}/>}
-      </FirebaseContext.Consumer>
-    </div>
+    <AuthUserContext.Consumer>
+      {authUser => (
+        <div>
+            <h1>Account: {authUser.email}</h1>
+            <div>Update your password</div>
+            <PasswordChangeForm />
+        </div>
+      )}
+    </AuthUserContext.Consumer>
   )
 };
 
-export default Account;
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(Account);

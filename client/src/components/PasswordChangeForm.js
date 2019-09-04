@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import { withFirebase } from '../contexts/FirebaseContext';
 import * as ROUTES from '../constants/routes';
 
 
@@ -60,4 +62,4 @@ const PasswordChangeForm = (props) => {
   )
 };
 
-export default withRouter(PasswordChangeForm);
+export default compose(withRouter, withFirebase)(PasswordChangeForm);

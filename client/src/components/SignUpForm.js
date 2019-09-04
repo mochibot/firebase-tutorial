@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../contexts/FirebaseContext';
 import * as ROUTES from '../constants/routes';
 
 
@@ -39,7 +41,15 @@ const SignUpForm = (props) => {
     event.preventDefault();
     if (validateEntry()) {
       props.firebase.doCreateUserWithEmailAndPassword(input.email, input.password)
-        .then(response => {
+        .then(authUser => {
+          return props.firebase
+            .user(authUser.user.uid)
+            .set({
+              username: input.username,
+              email: input.email
+            })
+        })
+        .then(() => {  
           setInput({
             username: '',
             email: '',
@@ -66,4 +76,4 @@ const SignUpForm = (props) => {
   )
 };
 
-export default withRouter(SignUpForm);
+export default compose(withRouter, withFirebase)(SignUpForm);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withFirebase } from '../contexts/FirebaseContext';
 
 const PasswordForgetForm = (props) => {
   const [input, setInput] = useState({
@@ -48,4 +49,4 @@ const PasswordForgetForm = (props) => {
   )
 }
 
-export default PasswordForgetForm;
+export default withFirebase(PasswordForgetForm);

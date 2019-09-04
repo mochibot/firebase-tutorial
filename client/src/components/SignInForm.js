@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../contexts/FirebaseContext';
 import * as ROUTES from '../constants/routes';
 
 
@@ -55,4 +57,4 @@ const SignInForm = (props) => {
   )
 };
 
-export default withRouter(SignInForm);
+export default compose(withRouter, withFirebase)(SignInForm);
