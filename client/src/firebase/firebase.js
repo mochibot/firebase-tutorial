@@ -1,6 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/database';   //using real-time database
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,

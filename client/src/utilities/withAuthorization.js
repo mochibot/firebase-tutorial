@@ -17,11 +17,7 @@ const withAuthorization = (condition) => (Component) => {
         () => this.props.history.push(ROUTES.SIGN_IN)
       );
     }
-/*
-    componentWillUnmount() {
-      this.listener();
-    }
-*/
+
     render() {
       return (
         <AuthUserContext.Consumer>

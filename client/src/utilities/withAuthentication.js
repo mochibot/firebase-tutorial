@@ -7,10 +7,24 @@ const withAuthentication = Component => {
     constructor(props) {
       super(props);
       this.state = {
-        authUser: null,
+        authUser: JSON.parse(localStorage.getItem('authUser')),
       };
     }
-
+    //using localstorage for authenticated user
+    componentDidMount() {
+      this.listener = this.props.firebase.onAuthUserListener(
+        authUser => { 
+          localStorage.setItem('authUser', JSON.stringify(authUser));
+          this.setState({ authUser });
+        },
+        () => {
+          localStorage.removeItem('authUser');
+          this.setState({ authUser: null });
+        }
+      )
+    }
+  
+    /*
     componentDidMount() {
       this.listener = this.props.firebase.onAuthUserListener(
         authUser => {
@@ -21,12 +35,7 @@ const withAuthentication = Component => {
         }
       );
     }
-
-    /*
-    componentWillUnmount() {
-      this.listener();
-    }
-*/
+  */
     render() {
       return (
         <AuthUserContext.Provider value={this.state.authUser}>
