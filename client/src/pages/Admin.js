@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'recompose';
 import { withFirebase } from '../contexts/FirebaseContext';
 import withAuthorization from '../utilities/withAuthorization';
+//import withEmailVerification from '../utilities/withEmailVerification';
 import * as ROLES from '../constants/roles';
 import User from '../components/User';
 
@@ -41,6 +42,7 @@ const condition = authUser => {
 }
 
 export default compose(
+  //withEmailVerification,
   withAuthorization(condition),
   withFirebase
 )(Admin);

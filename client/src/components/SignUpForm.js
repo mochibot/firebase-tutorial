@@ -66,6 +66,9 @@ const SignUpForm = (props) => {
               roles, 
             })
         })
+        .then(() => {
+          return props.firebase.doSendEmailVerification();
+        })
         .then(() => {  
           setInput({
             username: '',

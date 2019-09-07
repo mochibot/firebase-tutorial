@@ -35,6 +35,10 @@ class Firebase {
   doSignOut = () => this.auth.signOut();
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
+  doSendEmailVerification = () => 
+    this.auth.currentUser.sendEmailVerification({
+      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+    })
 
   //merge auth and DB User API
   onAuthUserListener = (next, fallback) => {
@@ -45,13 +49,15 @@ class Firebase {
           .then(response => {
             const dbUser = response.val();
 
-            if (!dbUser.roles) {
+            if (!dbUser.roles) {           //default empty roles
               dbUser.roles = {}
             }
 
             authUser = {                          //merge with uid and email of authenticated user
               uid: authUser.uid,
               email: authUser.email,
+              //emailVerified: authUser.emailVerified,
+              //providerData: authUser.providerData,
               ...dbUser
             }
 

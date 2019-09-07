@@ -1,5 +1,7 @@
 import React from 'react';
 import withAuthorization from '../utilities/withAuthorization';
+//import { compose } from 'recompose';
+//import withEmailVerification from '../utilities/withEmailVerification';
 
 const Home = () => {
   return (
@@ -11,5 +13,12 @@ const Home = () => {
 };
 
 const condition = authUser => !!authUser;
+
+/*
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition)
+)(Home);
+*/
 
 export default withAuthorization(condition)(Home);
