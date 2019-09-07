@@ -1,38 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
 import { compose } from 'recompose';
-import { withFirebase } from '../contexts/FirebaseContext';
 import withAuthorization from '../utilities/withAuthorization';
-//import withEmailVerification from '../utilities/withEmailVerification';
+import { withFirebase } from '../contexts/FirebaseContext';
+import UserList from '../components/UserList';
+import UserItem from '../components/UserItem';
 import * as ROLES from '../constants/roles';
-import User from '../components/User';
+import * as ROUTES from '../constants/routes';
 
 const Admin = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    setIsLoading(true);
-   
-    props.firebase.users().on('value', snapshot => {
-      const usersObj = snapshot.val();
-      const usersList = Object.keys(usersObj).map(key => {
-        return {
-          ...usersObj[key],
-          uid: key
-        }
-      })
-
-      setUsers(usersList);
-      setIsLoading(false);
-    })
-  }, []);
 
   return (
     <div>
-      <h1>Admin</h1>
-      <div>Restricted content. Only users with admin role can view this page</div>
-      {isLoading && <div>Loading...</div>} 
-      {users && users.map(item => <User key={item.uid} user={item}/>)}
+      <div>Restricted content - accessible by every signed in admin user.</div>
+      <Route exact path={ROUTES.ADMIN} component={UserList}/>
+      <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem}/>
     </div>
   )
 };
