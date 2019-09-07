@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from '../contexts/FirebaseContext';
 import AuthUserContext from '../contexts/AuthUserContext';
 import * as ROUTES from '../constants/routes';
+import * as ROLES from '../constants/roles';
 
-const Navigation = (props) => {
+const Navigation = ({ firebase }) => {
   
   const logout = () => {
-    props.firebase.doSignOut();
+    firebase.doSignOut();
   }
 
   return (
     <AuthUserContext.Consumer>
-      {authUser => authUser ? <AuthLinks logout={logout} /> : <NonAuthLinks />}
+      {authUser => authUser ? <AuthLinks authUser={authUser} logout={logout} /> : <NonAuthLinks />}
     </AuthUserContext.Consumer>
   )
 };
@@ -42,9 +43,11 @@ const AuthLinks = (props) => {
       <li>
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </li>
-      <li>
-        <Link to={ROUTES.ADMIN}>Admin</Link>
-      </li>
+      {!!props.authUser.roles[ROLES.ADMIN] && (
+        <li>
+          <Link to={ROUTES.ADMIN}>Admin</Link>
+        </li>
+      )}
       <li>
         <Link onClick={props.logout} to={ROUTES.SIGN_IN}>Sign Out</Link>
       </li>
